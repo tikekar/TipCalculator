@@ -24,15 +24,11 @@ class TCMainViewController: UIViewController {
         self.amountTextField.becomeFirstResponder()
         self.innerView.isHidden = true
         self.amountTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        //self.amountTextField.addTarget(self, action: #selector(textFieldBeginEditing(_:)),, for: editing)
+       
+        let tap = UITapGestureRecognizer(target: self, action: #selector(TCMainViewController.handleTap))
+        self.view.addGestureRecognizer(tap)
        
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     
     func textFieldDidChange(_ textField: UITextField) {
         handleViewSliding();
@@ -49,7 +45,7 @@ class TCMainViewController: UIViewController {
         let amount_ = Double(self.amountTextField.text!)
         let percentage_ = self.getPercentage()
         let tip_ = (amount_! * percentage_)/100
-        self.addedAmountLabel.text = "+ $" + String(tip_)
+        self.addedAmountLabel.text = "+ Tip Added: $" + String(tip_)
         self.totalAmountLabel.text = "Total: $" + String(amount_! + tip_)
 
     }
@@ -67,15 +63,11 @@ class TCMainViewController: UIViewController {
         return -1;
     }
     
-    @IBAction func onSegmentControlChange(_ sender: Any) {
-        
-    }
-    
     func handleViewSliding() {
         if(!self.isViewSlided) {
             self.isViewSlided = true;
             UIView.animate(withDuration: 0.3, animations: {
-                self.outerView.frame.origin.y = self.outerView.frame.origin.y - 120;
+                self.outerView.frame = CGRect(x: self.outerView.frame.origin.x, y: self.outerView.frame.origin.y - 120 , width: self.outerView.frame.size.width, height: self.outerView.frame.size.height)
                 self.innerView.isHidden = false;
             }, completion: { (Bool) in
             })
@@ -83,16 +75,22 @@ class TCMainViewController: UIViewController {
         else if(self.amountTextField.text?.isEmpty)! {
             self.isViewSlided = false;
             UIView.animate(withDuration: 0.3, animations: {
-                self.outerView.frame.origin.y = self.outerView.frame.origin.y + 120;
+                self.outerView.frame = CGRect(x: self.outerView.frame.origin.x, y: self.outerView.frame.origin.y + 120 , width: self.outerView.frame.size.width, height: self.outerView.frame.size.height)
                 self.innerView.isHidden = true;
             }, completion: { (Bool) in
                 
             })
         }
-
     }
     
-
+    func handleTap() {
+        self.amountTextField.resignFirstResponder();
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
     /*
     // MARK: - Navigation
 
