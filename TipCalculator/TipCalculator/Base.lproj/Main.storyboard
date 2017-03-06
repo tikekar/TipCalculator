@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Main View Controller-->
+        <!--Tip Calculator-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="TCMainViewController" customModule="TipCalculator" customModuleProvider="target" sceneMemberID="viewController">
@@ -22,15 +22,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rF4-th-2Sz">
-                                <rect key="frame" x="0.0" y="168" width="375" height="499"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="$" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="V6o-Ak-Wzr">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Amount in $" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="V6o-Ak-Wzr">
                                         <rect key="frame" x="8" y="55" width="359" height="42"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="42" id="z9F-Bb-wYb"/>
                                         </constraints>
                                         <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="36"/>
                                         <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                         <connections>
                                             <outlet property="delegate" destination="BYZ-38-t0r" id="tYA-1t-Rn3"/>
@@ -45,8 +45,12 @@
                                                     <segment title="10%"/>
                                                     <segment title="15%"/>
                                                     <segment title="20%"/>
+                                                    <segment title="Custom"/>
                                                 </segments>
                                                 <color key="tintColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                                <connections>
+                                                    <action selector="onSegmentControlChange:" destination="BYZ-38-t0r" eventType="valueChanged" id="cfG-7b-nZQ"/>
+                                                </connections>
                                             </segmentedControl>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lpf-e1-SUG">
                                                 <rect key="frame" x="8" y="67" width="359" height="21"/>
@@ -75,7 +79,7 @@
                                 <constraints>
                                     <constraint firstItem="V6o-Ak-Wzr" firstAttribute="top" secondItem="rF4-th-2Sz" secondAttribute="top" constant="55" id="KHw-Bo-Toc"/>
                                     <constraint firstAttribute="trailing" secondItem="V6o-Ak-Wzr" secondAttribute="trailing" constant="8" id="P1M-36-JqN"/>
-                                    <constraint firstAttribute="height" constant="499" id="SDz-03-KX2"/>
+                                    <constraint firstAttribute="height" constant="603" id="SDz-03-KX2"/>
                                     <constraint firstItem="7Ak-lE-v3e" firstAttribute="trailing" secondItem="V6o-Ak-Wzr" secondAttribute="trailing" constant="8" id="Slv-XG-eff"/>
                                     <constraint firstItem="7Ak-lE-v3e" firstAttribute="top" secondItem="V6o-Ak-Wzr" secondAttribute="top" constant="64" id="hg3-ls-67o"/>
                                     <constraint firstItem="7Ak-lE-v3e" firstAttribute="leading" secondItem="V6o-Ak-Wzr" secondAttribute="leading" constant="-8" id="j0F-yU-iQC"/>
@@ -86,11 +90,17 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="rF4-th-2Sz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="DeS-b7-HQn"/>
-                            <constraint firstItem="rF4-th-2Sz" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="168" id="T8e-xr-o4c"/>
+                            <constraint firstItem="rF4-th-2Sz" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="64" id="T8e-xr-o4c"/>
                             <constraint firstAttribute="trailing" secondItem="rF4-th-2Sz" secondAttribute="trailing" id="u7J-iU-Xqt"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Rck-WX-Bve"/>
+                    <navigationItem key="navigationItem" title="Tip Calculator" id="Rck-WX-Bve">
+                        <barButtonItem key="rightBarButtonItem" title="settings" id="Ulb-Qm-eum">
+                            <connections>
+                                <segue destination="OnE-fN-p3a" kind="show" identifier="Show Settings View" id="Qxj-vY-J1B"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="addedAmountLabel" destination="lpf-e1-SUG" id="J2T-6q-LUg"/>
                         <outlet property="amountTextField" destination="V6o-Ak-Wzr" id="gqu-Bf-yeo"/>
@@ -98,11 +108,75 @@
                         <outlet property="outerView" destination="rF4-th-2Sz" id="uus-9R-ikM"/>
                         <outlet property="segmentedControl" destination="uB7-lR-4CP" id="ViA-XS-IHX"/>
                         <outlet property="totalAmountLabel" destination="6n2-0T-3uo" id="oP8-BV-BTH"/>
+                        <segue destination="u8u-C0-St6" kind="show" identifier="Show Custom View" id="fuS-JF-dzO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1077.5999999999999" y="182.15892053973016"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="v8T-Ia-G3Y">
+            <objects>
+                <viewController id="OnE-fN-p3a" customClass="TCSettingsViewController" customModule="TipCalculator" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aM5-jV-PyU"/>
+                        <viewControllerLayoutGuide type="bottom" id="a1x-sH-k7B"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="SxW-pG-blU">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Y9G-n5-M5L">
+                                <rect key="frame" x="8" y="136" width="359" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="10%"/>
+                                    <segment title="15%"/>
+                                    <segment title="20%"/>
+                                </segments>
+                                <color key="tintColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                <connections>
+                                    <action selector="onSegmentControlChange:" destination="OnE-fN-p3a" eventType="valueChanged" id="ko0-jg-Dol"/>
+                                </connections>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Default tip percentage" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cpg-9r-YOB">
+                                <rect key="frame" x="8" y="95" width="351" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Settings" id="pwi-OV-wgn"/>
+                    <connections>
+                        <outlet property="segmentControl" destination="Y9G-n5-M5L" id="F8J-sV-nPm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5Mh-Fo-qFb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1718" y="182"/>
+        </scene>
+        <!--Custom Tip-->
+        <scene sceneID="DDc-iY-3Rx">
+            <objects>
+                <viewController id="u8u-C0-St6" customClass="TCCustomTipViewController" customModule="TipCalculator" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="c8K-1A-oPO"/>
+                        <viewControllerLayoutGuide type="bottom" id="JcR-P5-xX1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="eMl-13-3yk">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Custom Tip" id="KLW-vn-5Mq"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9J5-sq-cvf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2335" y="176"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="xNZ-iK-PFB">

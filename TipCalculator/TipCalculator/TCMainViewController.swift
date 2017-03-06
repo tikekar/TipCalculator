@@ -22,12 +22,21 @@ class TCMainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.amountTextField.becomeFirstResponder()
-        self.innerView.isHidden = true
+        self.innerView.layer.opacity = 0.0;
         self.amountTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
        
         let tap = UITapGestureRecognizer(target: self, action: #selector(TCMainViewController.handleTap))
         self.view.addGestureRecognizer(tap)
+        self.setDefaultTip()
        
+    }
+    
+    func setDefaultTip() {
+        let defaults = UserDefaults.standard
+        let indexString_:String? = defaults.object(forKey: "default_tip_percentage_index") as! String?
+        if(indexString_ != nil) {
+            self.segmentedControl.selectedSegmentIndex = Int(indexString_!)!;
+        }
     }
     
     func textFieldDidChange(_ textField: UITextField) {
@@ -44,8 +53,11 @@ class TCMainViewController: UIViewController {
         }
         let amount_ = Double(self.amountTextField.text!)
         let percentage_ = self.getPercentage()
+        if(percentage_ == -1) {
+            return;
+        }
         let tip_ = (amount_! * percentage_)/100
-        self.addedAmountLabel.text = "+ Tip Added: $" + String(tip_)
+        self.addedAmountLabel.text = String(Int(percentage_)) + "% Tip Added: $" + String(tip_)
         self.totalAmountLabel.text = "Total: $" + String(amount_! + tip_)
 
     }
@@ -68,8 +80,7 @@ class TCMainViewController: UIViewController {
             self.isViewSlided = true;
             self.innerView.isHidden = false;
             UIView.animate(withDuration: 0.3, animations: {
-                self.outerView.frame = CGRect(x: self.outerView.frame.origin.x, y: self.outerView.frame.origin.y - 120 , width: self.outerView.frame.size.width, height: self.outerView.frame.size.height)
-                
+                self.innerView.layer.opacity = 1.0;
             }, completion: { (Bool) in
             })
         }
@@ -77,8 +88,7 @@ class TCMainViewController: UIViewController {
             self.isViewSlided = false;
             self.innerView.isHidden = true;
             UIView.animate(withDuration: 0.3, animations: {
-                self.outerView.frame = CGRect(x: self.outerView.frame.origin.x, y: self.outerView.frame.origin.y + 120 , width: self.outerView.frame.size.width, height: self.outerView.frame.size.height)
-                
+                self.innerView.layer.opacity = 0.0;
             }, completion: { (Bool) in
                 
             })
@@ -93,6 +103,14 @@ class TCMainViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
+    @IBAction func onSegmentControlChange(_ sender: Any) {
+        if(self.segmentedControl.selectedSegmentIndex == 3) {
+            self.performSegue(withIdentifier: "Show Custom View", sender: nil)
+        }
+        else {
+            self.calculateTotalAmount()
+        }
+    }
     /*
     // MARK: - Navigation
 
