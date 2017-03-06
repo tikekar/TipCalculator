@@ -66,17 +66,19 @@ class TCMainViewController: UIViewController {
     func handleViewSliding() {
         if(!self.isViewSlided) {
             self.isViewSlided = true;
+            self.innerView.isHidden = false;
             UIView.animate(withDuration: 0.3, animations: {
                 self.outerView.frame = CGRect(x: self.outerView.frame.origin.x, y: self.outerView.frame.origin.y - 120 , width: self.outerView.frame.size.width, height: self.outerView.frame.size.height)
-                self.innerView.isHidden = false;
+                
             }, completion: { (Bool) in
             })
         }
         else if(self.amountTextField.text?.isEmpty)! {
             self.isViewSlided = false;
+            self.innerView.isHidden = true;
             UIView.animate(withDuration: 0.3, animations: {
                 self.outerView.frame = CGRect(x: self.outerView.frame.origin.x, y: self.outerView.frame.origin.y + 120 , width: self.outerView.frame.size.width, height: self.outerView.frame.size.height)
-                self.innerView.isHidden = true;
+                
             }, completion: { (Bool) in
                 
             })
