@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TCMainViewController: UIViewController {
+class TCMainViewController: UIViewController, TCCustomTipDelegate {
     
     @IBOutlet weak var outerView: UIView!
     @IBOutlet weak var amountTextField: UITextField!
@@ -111,14 +111,35 @@ class TCMainViewController: UIViewController {
             self.calculateTotalAmount()
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    func setTotalAmount(_ percentage: Int, tipInAmount: Double) {
+        if(self.amountTextField.text?.isEmpty)! {
+            self.addedAmountLabel.text = "";
+            self.totalAmountLabel.text = "";
+            return;
+        }
+        
+        let amount_ = Double(self.amountTextField.text!)
+        if(percentage == -1 && tipInAmount == -1) {
+            return;
+        }
+        else if(percentage != -1) {
+            let tip_ = (amount_! * Double(percentage))/100
+            self.addedAmountLabel.text = String(Int(percentage)) + "% Tip Added: $" + String(tip_)
+            self.totalAmountLabel.text = "Total: $" + String(amount_! + tip_)
+        }
+        else {
+            self.addedAmountLabel.text = "Tip added: $" + String(tipInAmount)
+            self.totalAmountLabel.text = "Total: $" + String(amount_! + tipInAmount)
+        }
     }
-    */
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let viewController = segue.destination as? TCCustomTipTableViewController {
+            viewController.delegate = self
+        }
+    }
 
 }
+
+

@@ -16,7 +16,7 @@
 		E703805B1E6DE54F00803F5E /* TipCalculatorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E703805A1E6DE54F00803F5E /* TipCalculatorUITests.swift */; };
 		E70380691E6DEB9E00803F5E /* TCMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E70380681E6DEB9E00803F5E /* TCMainViewController.swift */; };
 		E703806B1E6E11B000803F5E /* TCSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E703806A1E6E11B000803F5E /* TCSettingsViewController.swift */; };
-		E703806D1E6E139000803F5E /* TCCustomTipViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E703806C1E6E139000803F5E /* TCCustomTipViewController.swift */; };
+		E703806F1E6E1C8D00803F5E /* TCCustomTipTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E703806E1E6E1C8D00803F5E /* TCCustomTipTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +52,7 @@
 		E703805C1E6DE54F00803F5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E70380681E6DEB9E00803F5E /* TCMainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCMainViewController.swift; sourceTree = "<group>"; };
 		E703806A1E6E11B000803F5E /* TCSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCSettingsViewController.swift; sourceTree = "<group>"; };
-		E703806C1E6E139000803F5E /* TCCustomTipViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCCustomTipViewController.swift; sourceTree = "<group>"; };
+		E703806E1E6E1C8D00803F5E /* TCCustomTipTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCCustomTipTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,7 +111,7 @@
 				E703803E1E6DE54F00803F5E /* TipCalculator.xcdatamodeld */,
 				E70380681E6DEB9E00803F5E /* TCMainViewController.swift */,
 				E703806A1E6E11B000803F5E /* TCSettingsViewController.swift */,
-				E703806C1E6E139000803F5E /* TCCustomTipViewController.swift */,
+				E703806E1E6E1C8D00803F5E /* TCCustomTipTableViewController.swift */,
 			);
 			path = TipCalculator;
 			sourceTree = "<group>";
@@ -274,7 +274,7 @@
 				E703806B1E6E11B000803F5E /* TCSettingsViewController.swift in Sources */,
 				E70380401E6DE54F00803F5E /* TipCalculator.xcdatamodeld in Sources */,
 				E70380691E6DEB9E00803F5E /* TCMainViewController.swift in Sources */,
-				E703806D1E6E139000803F5E /* TCCustomTipViewController.swift in Sources */,
+				E703806F1E6E1C8D00803F5E /* TCCustomTipTableViewController.swift in Sources */,
 				E70380381E6DE54F00803F5E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
