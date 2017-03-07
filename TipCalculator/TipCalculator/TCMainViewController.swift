@@ -37,19 +37,20 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
     
     // Set the last user state with last entered amount and tip settings in UserDefaults
     func setUserState() {
-        var userState_:Dictionary<String, String>? = Dictionary.init()
-        if(self.amountTextField.text != nil){userState_?["amount"] = self.amountTextField.text}
+        var userState_:Dictionary<String, AnyObject>? = Dictionary.init()
+        if(self.amountTextField.text != nil){userState_?["amount"] = self.amountTextField.text as AnyObject?}
         if(self.tipObject?["tipValue"] != nil){
-            userState_?["tipValue"] = String(Double((self.tipObject?["tipValue"])!))
+            userState_?["tipValue"] = self.tipObject?["tipValue"] as AnyObject?
             userState_?["percentage"] = nil;
         }
         else if(self.tipObject?["percentage"] != nil){
-            userState_?["percentage"] = String(Int((self.tipObject?["percentage"])!))
+            userState_?["percentage"] = self.tipObject?["percentage"] as AnyObject?
             userState_?["tipValue"] = nil;
         }
-        
+        userState_?["date"] = Date() as AnyObject?
         let defaults = UserDefaults.standard
         defaults.set(userState_, forKey: "user_state")
+        defaults.synchronize()
     }
     
     // Set Tip and amount from last saved user state
@@ -59,10 +60,19 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
         if(indexString_ != nil) {
             self.segmentedControl.selectedSegmentIndex = Int(indexString_!)!;
         }
-        let userState_:Dictionary<String, String>? = defaults.object(forKey: "user_state") as! Dictionary?
+        let userState_:Dictionary<String, AnyObject>? = defaults.object(forKey: "user_state") as! Dictionary?
         if(userState_ != nil) {
+            let userStateDate_:Date? = userState_?["date"] as! Date?;
+            if(userStateDate_ != nil) {
+                let diff_:Int = self.minutesBetween(start: userStateDate_!, end: Date())
+                if(diff_ >= 5) {
+                    defaults.removeObject(forKey: "user_state")
+                    defaults.synchronize()
+                    return;
+                }
+            }
             if(userState_?["percentage"] != nil) {
-                let perc_ = Int((userState_?["percentage"])!)
+                let perc_:Int? = userState_?["percentage"] as! Int?
                 self.tipObject?["percentage"] = Double(perc_!)
                 self.tipObject?["tipValue"] = nil;
                 if(perc_ == 10) {
@@ -79,17 +89,21 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
                 }
             }
             else if(userState_?["tipValue"] != nil) {
-                let perc_ = Double((userState_?["tipValue"])!)
-                self.tipObject?["tipValue"] = perc_
+                let val_:Double = userState_?["tipValue"] as! Double
+                self.tipObject?["tipValue"] = val_
                 self.tipObject?["percentage"] = nil;
                 self.segmentedControl.selectedSegmentIndex = 3
             }
             if(userState_?["amount"] != nil) {
-                self.amountTextField.text = userState_?["amount"]
+                self.amountTextField.text = userState_?["amount"] as! String?
             }
             self.innerView.layer.opacity = 1.0
             self.calculateTotalAmount()
         }
+    }
+    
+    func minutesBetween(start: Date, end: Date) -> Int {
+        return Calendar.current.dateComponents([.minute], from: start, to: end).minute!
     }
     
     // When Amount TextField value changed
@@ -97,6 +111,7 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
         if(self.amountTextField.text?.isEmpty)! {
             let defaults = UserDefaults.standard
             defaults.removeObject(forKey: "user_state")
+            defaults.synchronize()
         }
         showHideInnerView();
         self.setTipObjectDictionary()
@@ -120,6 +135,12 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
             return;
         }
         let amount_ = Double(self.amountTextField.text!)
+        if(amount_ == nil) {
+            self.addedAmountLabel.text = "";
+            self.totalAmountLabel.text = "";
+            self.amountTextField.text = "";
+            return;
+        }
         var tip_:Double? = 0;
         
         if(self.tipObject?["percentage"] != nil) {

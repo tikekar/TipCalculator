@@ -26,6 +26,7 @@ class TCSettingsViewController: UIViewController {
     @IBAction func onSegmentControlChange(_ sender: Any) {
         let defaults = UserDefaults.standard
         defaults.set(String(self.segmentControl.selectedSegmentIndex), forKey: "default_tip_percentage_index")
+        defaults.synchronize()
         
     }
     
