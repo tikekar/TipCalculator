@@ -58,18 +58,19 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
             return;
         }
         let amount_ = Double(self.amountTextField.text!)
+        var tip_:Double? = 0;
         
         if(self.tipObject?["percentage"] != nil) {
             let percentage_ = Double((self.tipObject?["percentage"])!)
         
-            let tip_ = (amount_! * percentage_)/100
-            self.addedAmountLabel.text = String(Int(percentage_)) + "% Tip Added: $" + String(tip_)
-            self.totalAmountLabel.text = "Total: $" + String(amount_! + tip_)
+            tip_ = (amount_! * percentage_)/100
+            self.addedAmountLabel.text = String(Int(percentage_)) + "% Tip Added: $" + String(Double(tip_!))
+            self.totalAmountLabel.text = "Total: $" + String(amount_! + Double(tip_!))
         }
         else {
-            let tip_:Double = (self.tipObject?["tipValue"])!;
-            self.addedAmountLabel.text = "Tip added: $" + String(tip_)
-            self.totalAmountLabel.text = "Total: $" + String(amount_! + tip_)
+            tip_ = (self.tipObject?["tipValue"])!;
+            self.addedAmountLabel.text = "Tip added: $" + String(Double(tip_!))
+            self.totalAmountLabel.text = "Total: $" + String(amount_! + Double(tip_!))
         }
 
     }
@@ -169,8 +170,10 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
         if let viewController = segue.destination as? TCCustomTipTableViewController {
             viewController.delegate = self
             viewController.amount = Double(self.amountTextField.text!)
+            viewController.tipObject = self.tipObject
         }
     }
+        
 
 }
 

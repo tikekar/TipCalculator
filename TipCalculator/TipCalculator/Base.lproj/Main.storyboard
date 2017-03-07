@@ -190,14 +190,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="90"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter tip in $" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9NO-of-Lcg">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter tip in $" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9NO-of-Lcg">
                                                     <rect key="frame" x="8" y="36" width="352" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="G76-Wk-Lwq"/>
                                                     </constraints>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="voa-Zx-apk" id="ecs-qz-Aem"/>
                                                     </connections>
@@ -217,7 +217,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="130"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Or select percentage" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FP6-Uo-EYW">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Or select percentage" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FP6-Uo-EYW">
                                                     <rect key="frame" x="8" y="21" width="359" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="wqm-ne-85g"/>
@@ -227,7 +227,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5" minValue="5" maxValue="30" translatesAutoresizingMaskIntoConstraints="NO" id="iVd-si-dB8">
-                                                    <rect key="frame" x="29" y="50" width="322" height="31"/>
+                                                    <rect key="frame" x="19" y="50" width="350" height="31"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="6D8-C1-cyy"/>
                                                     </constraints>
@@ -250,9 +250,9 @@
                                                 <constraint firstItem="B9l-p4-Cof" firstAttribute="leading" secondItem="E1N-eZ-neT" secondAttribute="leading" constant="10" id="6iV-Sq-6f6"/>
                                                 <constraint firstItem="B9l-p4-Cof" firstAttribute="top" secondItem="E1N-eZ-neT" secondAttribute="top" constant="88" id="BDH-Lo-0Zl"/>
                                                 <constraint firstItem="FP6-Uo-EYW" firstAttribute="leading" secondItem="E1N-eZ-neT" secondAttribute="leading" constant="8" id="Pu7-4e-oYf"/>
-                                                <constraint firstItem="iVd-si-dB8" firstAttribute="leading" secondItem="E1N-eZ-neT" secondAttribute="leading" constant="31" id="UdZ-ER-bxO"/>
+                                                <constraint firstItem="iVd-si-dB8" firstAttribute="leading" secondItem="E1N-eZ-neT" secondAttribute="leading" constant="21" id="UdZ-ER-bxO"/>
                                                 <constraint firstItem="iVd-si-dB8" firstAttribute="top" secondItem="E1N-eZ-neT" secondAttribute="top" constant="50" id="XmF-UI-LHD"/>
-                                                <constraint firstAttribute="trailing" secondItem="iVd-si-dB8" secondAttribute="trailing" constant="26" id="ZbE-78-n2q"/>
+                                                <constraint firstAttribute="trailing" secondItem="iVd-si-dB8" secondAttribute="trailing" constant="8" id="ZbE-78-n2q"/>
                                                 <constraint firstAttribute="trailing" secondItem="B9l-p4-Cof" secondAttribute="trailing" constant="8" id="kJL-bu-fQu"/>
                                                 <constraint firstItem="FP6-Uo-EYW" firstAttribute="top" secondItem="E1N-eZ-neT" secondAttribute="top" constant="21" id="nWJ-os-jqD"/>
                                             </constraints>

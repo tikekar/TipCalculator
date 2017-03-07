@@ -29,6 +29,7 @@ class TCCustomTipTableViewController: UITableViewController {
     var delegate: TCCustomTipDelegate?
     
     var amount: Double?
+    var tipObject: Dictionary<String,Double>? = nil;
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,24 +40,37 @@ class TCCustomTipTableViewController: UITableViewController {
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(TCMainViewController.handleTap))
         self.view.addGestureRecognizer(tap)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.sliderValueLabel.text = String(Int(self.slider.value)) + "%"
+        self.initializeTipValue()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-
+    
+    func initializeTipValue() {
+        if(self.tipObject != nil) {
+            if(self.tipObject?["percentage"] != nil) {
+                self.slider.value = Float((self.tipObject?["percentage"])!)
+                self.sliderValueLabel.text = String(Int(self.slider.value)) + "%"
+                self.appliedTipLabel.text = self.sliderValueLabel.text! + " tip will be applied"
+                
+            }
+            else if(self.tipObject?["tipValue"] != nil) {
+                self.tipTextField.text = String(Int((self.tipObject!["tipValue"])!))
+                self.appliedTipLabel.text = "$" + self.tipTextField.text! + " tip will be applied"
+                if(Int(self.tipObject!["tipValue"]!) == 0) {
+                    self.noTipButton.setTitle("✔︎", for: UIControlState.normal)
+                }
+            }
+        }
     }
     
     @IBAction func onSliderValueChange(_ sender: Any) {
-        self.applyBarButton.isEnabled = true;
         self.tipTextField.text = ""
         self.sliderValueLabel.text = String(Int(self.slider.value)) + "%"
         self.appliedTipLabel.text = self.sliderValueLabel.text! + " tip will be applied"
-        self.appliedTipLabel.textColor = UIColor.black;
     }
     
     @IBAction func onApplyClick(_ sender: Any) {
@@ -72,6 +86,7 @@ class TCCustomTipTableViewController: UITableViewController {
         _ = self.navigationController?.popViewController(animated: true)
     }
     
+    // Handle no tip click
     @IBAction func onNoTipClick(_ sender: Any) {
         if(self.noTipButton.currentTitle == nil || (self.noTipButton.currentTitle?.isEmpty)!) {
             self.noTipButton.setTitle("✔︎", for: UIControlState.normal)
@@ -81,36 +96,24 @@ class TCCustomTipTableViewController: UITableViewController {
         }
     }
     
-    func handleTap() {
+    // Tap the view to close the keyboard
+    func handleTap(gestureRecognizer: UIGestureRecognizer) {
         self.tipTextField.resignFirstResponder();
     }
     
     func textFieldDidChange(_ textField: UITextField) {
         
-        self.applyBarButton.isEnabled = true;
+         self.noTipButton.setTitle("", for: UIControlState.normal)
         if(self.tipTextField.text == nil || (self.tipTextField.text?.isEmpty)!) {
             self.appliedTipLabel.text = self.sliderValueLabel.text! + " tip will be applied"
             return;
         }
-        if(Int(self.tipTextField.text!)! > Int(self.amount!)) {
-            self.appliedTipLabel.text = "Tip is greater than $" + String(Double(self.amount!))
-            self.appliedTipLabel.textColor = UIColor.red;
-            self.applyBarButton.isEnabled = false;
-        }
-        else {
-            self.appliedTipLabel.text = "$" + self.tipTextField.text! + " tip will be applied"
-            self.appliedTipLabel.textColor = UIColor.black;
-        }
+        self.appliedTipLabel.text = "$" + self.tipTextField.text! + " tip will be applied"
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        
     }
-    */
 
 }
