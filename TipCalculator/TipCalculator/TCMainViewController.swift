@@ -19,7 +19,7 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
     @IBOutlet weak var totalAmountLabel: UILabel!
     @IBOutlet weak var customOverlayButton: UIButton!
     
-    var isViewSlided:Bool! = false
+    var isInnerViewVisible:Bool! = false
     var tipObject: Dictionary<String,Double>? = nil;
     
     override func viewDidLoad() {
@@ -33,7 +33,22 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(gestureRecognizer:)))
         self.view.addGestureRecognizer(tap)
         self.setDefaultTip()
-       
+    }
+    
+    func setUserState() {
+        var userState_:Dictionary<String, String>? = Dictionary.init()
+        if(self.amountTextField.text != nil){userState_?["amount"] = self.amountTextField.text}
+        if(self.tipObject?["tipValue"] != nil){
+            userState_?["tipValue"] = String(Double((self.tipObject?["tipValue"])!))
+            userState_?["percentage"] = nil;
+        }
+        else if(self.tipObject?["percentage"] != nil){
+            userState_?["percentage"] = String(Int((self.tipObject?["percentage"])!))
+            userState_?["tipValue"] = nil;
+        }
+        
+        let defaults = UserDefaults.standard
+        defaults.set(userState_, forKey: "user_state")
     }
     
     func setDefaultTip() {
@@ -42,10 +57,45 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
         if(indexString_ != nil) {
             self.segmentedControl.selectedSegmentIndex = Int(indexString_!)!;
         }
+        let userState_:Dictionary<String, String>? = defaults.object(forKey: "user_state") as! Dictionary?
+        if(userState_ != nil) {
+            if(userState_?["percentage"] != nil) {
+                let perc_ = Int((userState_?["percentage"])!)
+                self.tipObject?["percentage"] = Double(perc_!)
+                self.tipObject?["tipValue"] = nil;
+                if(perc_ == 10) {
+                    self.segmentedControl.selectedSegmentIndex = 0
+                }
+                else if(perc_ == 15) {
+                    self.segmentedControl.selectedSegmentIndex = 1
+                }
+                else if(perc_ == 20) {
+                    self.segmentedControl.selectedSegmentIndex = 2
+                }
+                else {
+                    self.segmentedControl.selectedSegmentIndex = 3
+                }
+            }
+            else if(userState_?["tipValue"] != nil) {
+                let perc_ = Double((userState_?["tipValue"])!)
+                self.tipObject?["tipValue"] = perc_
+                self.tipObject?["percentage"] = nil;
+                self.segmentedControl.selectedSegmentIndex = 3
+            }
+            if(userState_?["amount"] != nil) {
+                self.amountTextField.text = userState_?["amount"]
+            }
+            self.innerView.layer.opacity = 1.0
+            self.calculateTotalAmount()
+        }
     }
     
     func textFieldDidChange(_ textField: UITextField) {
-        handleViewSliding();
+        if(self.amountTextField.text?.isEmpty)! {
+            let defaults = UserDefaults.standard
+            defaults.removeObject(forKey: "user_state")
+        }
+        showHideInnerView();
         self.setTipDictionary()
         self.calculateTotalAmount()
         
@@ -72,6 +122,7 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
             self.addedAmountLabel.text = "Tip added: $" + String(Double(tip_!))
             self.totalAmountLabel.text = "Total: $" + String(amount_! + Double(tip_!))
         }
+        self.setUserState()
 
     }
     
@@ -97,9 +148,9 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
         return -1;
     }
     
-    func handleViewSliding() {
-        if(!self.isViewSlided) {
-            self.isViewSlided = true;
+    func showHideInnerView() {
+        if(!self.isInnerViewVisible) {
+            self.isInnerViewVisible = true;
             self.innerView.isHidden = false;
             UIView.animate(withDuration: 0.3, animations: {
                 self.innerView.layer.opacity = 1.0;
@@ -107,7 +158,7 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
             })
         }
         else if(self.amountTextField.text?.isEmpty)! {
-            self.isViewSlided = false;
+            self.isInnerViewVisible = false;
             self.innerView.isHidden = true;
             UIView.animate(withDuration: 0.3, animations: {
                 self.innerView.layer.opacity = 0.0;
