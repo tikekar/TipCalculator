@@ -7,6 +7,7 @@ Tip Calculator App as a pre-assignment submission for codepath
 3. The page will then show the tip amount added and the Total billing amount
 4. On the main screen, added a settings bar button on the top right corner. It will take to settings page.
 5. Settings page will save the default tip percentage in UserDefaults.
+6. Please note that the tip settings in current user state will take higher precedence than the default tip setting. So if user changes the default setting, that will take effect only when current state is nil
 
 
 ### Extended(Optional) App Features
