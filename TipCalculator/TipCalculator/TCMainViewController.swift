@@ -137,6 +137,7 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let viewController = segue.destination as? TCCustomTipTableViewController {
             viewController.delegate = self
+            viewController.amount = Double(self.amountTextField.text!)
         }
     }
 

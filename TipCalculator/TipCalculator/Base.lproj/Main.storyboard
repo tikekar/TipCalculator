@@ -140,7 +140,7 @@
                                     <action selector="onSegmentControlChange:" destination="OnE-fN-p3a" eventType="valueChanged" id="ko0-jg-Dol"/>
                                 </connections>
                             </segmentedControl>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Default tip percentage" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cpg-9r-YOB">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Set Default Tip" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cpg-9r-YOB">
                                 <rect key="frame" x="8" y="95" width="351" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -277,6 +277,13 @@
                                                         <action selector="onNoTipClick:" destination="voa-Zx-apk" eventType="touchUpInside" id="g0K-oK-U3Z"/>
                                                     </connections>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KMD-6A-U9m">
+                                                    <rect key="frame" x="8" y="24" width="225" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="mpf-4X-QMw" secondAttribute="trailing" constant="73" id="9vL-Cb-bZO"/>
@@ -302,6 +309,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="appliedTipLabel" destination="KMD-6A-U9m" id="PR4-8S-2qD"/>
+                        <outlet property="applyBarButton" destination="LuC-Dn-cU4" id="lln-zg-hav"/>
                         <outlet property="noTipButton" destination="mpf-4X-QMw" id="9Y1-Qq-Jgg"/>
                         <outlet property="slider" destination="iVd-si-dB8" id="0eC-RD-TKr"/>
                         <outlet property="sliderValueLabel" destination="B9l-p4-Cof" id="g4S-gt-dtC"/>
