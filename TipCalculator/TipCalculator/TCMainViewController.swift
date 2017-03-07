@@ -86,6 +86,7 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
                 }
                 else {
                     self.segmentedControl.selectedSegmentIndex = 3
+                    self.customOverlayButton.isHidden = false
                 }
             }
             else if(userState_?["tipValue"] != nil) {
@@ -93,6 +94,7 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
                 self.tipObject?["tipValue"] = val_
                 self.tipObject?["percentage"] = nil;
                 self.segmentedControl.selectedSegmentIndex = 3
+                self.customOverlayButton.isHidden = false
             }
             if(userState_?["amount"] != nil) {
                 self.amountTextField.text = userState_?["amount"] as! String?
