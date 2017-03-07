@@ -21,4 +21,8 @@ Tip Calculator App as a pre-assignment submission for codepath
 3. Slider (in Custom view)
 4. SegmentedControl
 
+## Screen
+<img src="https://github.com/tikekar/TipCalculator/blob/master/screen_walkthrough.gif" alt="Drawing" width="200px"/>
+
+
 
