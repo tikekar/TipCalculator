@@ -20,10 +20,14 @@ class TCCustomTipTableViewController: UITableViewController {
     
     @IBOutlet weak var sliderValueLabel: UILabel!
     
+    @IBOutlet weak var noTipButton: UIButton!
+    
     var delegate: TCCustomTipDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.noTipButton.layer.borderWidth = 1.0;
+        self.noTipButton.layer.borderColor = UIColor.lightGray.cgColor;
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -47,13 +51,25 @@ class TCCustomTipTableViewController: UITableViewController {
     }
     
     @IBAction func onApplyClick(_ sender: Any) {
-        if(self.tipTextField.text?.isEmpty)! {
+        if(self.noTipButton.currentTitle != nil && !(self.noTipButton.currentTitle?.isEmpty)!) {
+            self.delegate?.setTotalAmount(-1, tipInAmount: 0)
+        }
+        else if(self.tipTextField.text?.isEmpty)! {
             self.delegate?.setTotalAmount(Int(self.slider.value), tipInAmount: -1)
         }
         else {
             self.delegate?.setTotalAmount(-1, tipInAmount: Double(self.tipTextField.text!)!)
         }
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func onNoTipClick(_ sender: Any) {
+        if(self.noTipButton.currentTitle == nil || (self.noTipButton.currentTitle?.isEmpty)!) {
+            self.noTipButton.setTitle("✔︎", for: UIControlState.normal)
+        }
+        else {
+            self.noTipButton.setTitle("", for: UIControlState.normal)
+        }
     }
     /*
     // MARK: - Navigation
