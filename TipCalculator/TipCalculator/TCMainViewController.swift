@@ -17,10 +17,13 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var addedAmountLabel: UILabel!
     @IBOutlet weak var totalAmountLabel: UILabel!
+    
     var isViewSlided:Bool! = false
+    var tipObject: Dictionary<String,Double>? = nil;
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tipObject = Dictionary.init()
         self.amountTextField.becomeFirstResponder()
         self.innerView.layer.opacity = 0.0;
         self.amountTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
@@ -41,7 +44,8 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
     
     func textFieldDidChange(_ textField: UITextField) {
         handleViewSliding();
-        calculateTotalAmount();
+        self.setTipDictionary()
+        self.calculateTotalAmount()
         
     }
     
@@ -52,17 +56,32 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
             return;
         }
         let amount_ = Double(self.amountTextField.text!)
-        let percentage_ = self.getPercentage()
-        if(percentage_ == -1) {
-            return;
+        
+        if(self.tipObject?["percentage"] != nil) {
+            let percentage_ = Double((self.tipObject?["percentage"])!)
+        
+            let tip_ = (amount_! * percentage_)/100
+            self.addedAmountLabel.text = String(Int(percentage_)) + "% Tip Added: $" + String(tip_)
+            self.totalAmountLabel.text = "Total: $" + String(amount_! + tip_)
         }
-        let tip_ = (amount_! * percentage_)/100
-        self.addedAmountLabel.text = String(Int(percentage_)) + "% Tip Added: $" + String(tip_)
-        self.totalAmountLabel.text = "Total: $" + String(amount_! + tip_)
+        else {
+            let tip_:Double = (self.tipObject?["tipValue"])!;
+            self.addedAmountLabel.text = "Tip added: $" + String(tip_)
+            self.totalAmountLabel.text = "Total: $" + String(amount_! + tip_)
+        }
 
     }
     
-    func getPercentage() -> Double {
+    func setTipDictionary() {
+        let percentage_ = self.getPercentageFromSegmentControl()
+        if(percentage_ == -1) {
+            return;
+        }
+        self.tipObject?["percentage"] = Double(percentage_);
+        self.tipObject?["tipValue"] = nil;
+    }
+    
+    func getPercentageFromSegmentControl() -> Double {
         if(self.segmentedControl.selectedSegmentIndex == 0) {
             return 10;
         }
@@ -108,6 +127,7 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
             self.performSegue(withIdentifier: "Show Custom View", sender: nil)
         }
         else {
+            self.setTipDictionary()
             self.calculateTotalAmount()
         }
     }
@@ -119,19 +139,19 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
             return;
         }
         
-        let amount_ = Double(self.amountTextField.text!)
         if(percentage == -1 && tipInAmount == -1) {
             return;
         }
         else if(percentage != -1) {
-            let tip_ = (amount_! * Double(percentage))/100
-            self.addedAmountLabel.text = String(Int(percentage)) + "% Tip Added: $" + String(tip_)
-            self.totalAmountLabel.text = "Total: $" + String(amount_! + tip_)
+            self.tipObject?["percentage"] = Double(percentage);
+            self.tipObject?["tipValue"] = nil;
         }
         else {
-            self.addedAmountLabel.text = "Tip added: $" + String(tipInAmount)
-            self.totalAmountLabel.text = "Total: $" + String(amount_! + tipInAmount)
+            self.tipObject?["tipValue"] = Double(tipInAmount);
+            self.tipObject?["percentage"] = nil;
+            
         }
+        self.calculateTotalAmount()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
