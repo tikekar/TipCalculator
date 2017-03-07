@@ -32,6 +32,11 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
        
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(gestureRecognizer:)))
         self.view.addGestureRecognizer(tap)
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.setFromUserState()
     }
     
