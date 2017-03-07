@@ -66,9 +66,12 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bzS-zt-Xjp">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bzS-zt-Xjp">
                                                 <rect key="frame" x="274" y="8" width="93" height="30"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="0d1-p9-vgq"/>
+                                                    <constraint firstAttribute="width" constant="93" id="YmW-fR-1Kx"/>
+                                                </constraints>
                                                 <connections>
                                                     <action selector="onCustomOverlayClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FMv-Yo-8Qn"/>
                                                 </connections>
@@ -79,7 +82,9 @@
                                             <constraint firstItem="uB7-lR-4CP" firstAttribute="leading" secondItem="7Ak-lE-v3e" secondAttribute="leading" constant="8" id="4Y0-YJ-OSg"/>
                                             <constraint firstAttribute="height" constant="380" id="5Co-qR-dQ8"/>
                                             <constraint firstAttribute="trailing" secondItem="uB7-lR-4CP" secondAttribute="trailing" constant="8" id="Igq-gk-4It"/>
+                                            <constraint firstAttribute="trailing" secondItem="bzS-zt-Xjp" secondAttribute="trailing" constant="8" id="NwL-Po-9S6"/>
                                             <constraint firstItem="uB7-lR-4CP" firstAttribute="top" secondItem="7Ak-lE-v3e" secondAttribute="top" constant="8" id="gQp-dU-Dms"/>
+                                            <constraint firstItem="bzS-zt-Xjp" firstAttribute="top" secondItem="7Ak-lE-v3e" secondAttribute="top" constant="8" id="taC-Wh-rRm"/>
                                         </constraints>
                                     </view>
                                 </subviews>

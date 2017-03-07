@@ -32,9 +32,10 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
        
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(gestureRecognizer:)))
         self.view.addGestureRecognizer(tap)
-        self.setDefaultTip()
+        self.setFromUserState()
     }
     
+    // Set the last user state with last entered amount and tip settings in UserDefaults
     func setUserState() {
         var userState_:Dictionary<String, String>? = Dictionary.init()
         if(self.amountTextField.text != nil){userState_?["amount"] = self.amountTextField.text}
@@ -51,7 +52,8 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
         defaults.set(userState_, forKey: "user_state")
     }
     
-    func setDefaultTip() {
+    // Set Tip and amount from last saved user state
+    func setFromUserState() {
         let defaults = UserDefaults.standard
         let indexString_:String? = defaults.object(forKey: "default_tip_percentage_index") as! String?
         if(indexString_ != nil) {
@@ -90,17 +92,27 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
         }
     }
     
+    // When Amount TextField value changed
     func textFieldDidChange(_ textField: UITextField) {
         if(self.amountTextField.text?.isEmpty)! {
             let defaults = UserDefaults.standard
             defaults.removeObject(forKey: "user_state")
         }
         showHideInnerView();
-        self.setTipDictionary()
+        self.setTipObjectDictionary()
         self.calculateTotalAmount()
-        
     }
     
+    func setTipObjectDictionary() {
+        let percentage_ = self.getPercentageFromSegmentControl()
+        if(percentage_ == -1) {
+            return;
+        }
+        self.tipObject?["percentage"] = Double(percentage_);
+        self.tipObject?["tipValue"] = nil;
+    }
+    
+    // When amount, percentage or tip value changed, calculate the total amount
     func calculateTotalAmount() {
         if(self.amountTextField.text?.isEmpty)! {
             self.addedAmountLabel.text = "";
@@ -126,15 +138,6 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
 
     }
     
-    func setTipDictionary() {
-        let percentage_ = self.getPercentageFromSegmentControl()
-        if(percentage_ == -1) {
-            return;
-        }
-        self.tipObject?["percentage"] = Double(percentage_);
-        self.tipObject?["tipValue"] = nil;
-    }
-    
     func getPercentageFromSegmentControl() -> Double {
         if(self.segmentedControl.selectedSegmentIndex == 0) {
             return 10;
@@ -148,6 +151,7 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
         return -1;
     }
     
+    // Show hide tip area for better UI effect
     func showHideInnerView() {
         if(!self.isInnerViewVisible) {
             self.isInnerViewVisible = true;
@@ -180,17 +184,20 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
     }
     
     @IBAction func onSegmentControlChange(_ sender: Any) {
+        // 3 is custom
         if(self.segmentedControl.selectedSegmentIndex == 3) {
             self.customOverlayButton.isHidden = false
             self.performSegue(withIdentifier: "Show Custom View", sender: nil)
         }
         else {
             self.customOverlayButton.isHidden = true
-            self.setTipDictionary()
+            self.setTipObjectDictionary()
             self.calculateTotalAmount()
         }
     }
     
+    // Set the Total amount and added Tip text fields
+    // This is delegate method of TCCustomTipDelegate protocol
     func setTotalAmount(_ percentage: Int, tipInAmount: Double) {
         if(self.amountTextField.text?.isEmpty)! {
             self.addedAmountLabel.text = "";
@@ -213,6 +220,9 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
         self.calculateTotalAmount()
     }
     
+    // This button is just added to handle multiple clicks on custom to open custom view
+    // When first time custom is selected, it works with segment Control. But clicking on it again does not work
+    // So added this overlay button. TODO: Need a better fix
     @IBAction func onCustomOverlayClick(_ sender: Any) {
         self.performSegue(withIdentifier: "Show Custom View", sender: nil)
     }

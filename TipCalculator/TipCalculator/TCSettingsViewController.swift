@@ -21,13 +21,15 @@ class TCSettingsViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    
+    // Add the index in the user defaults.
+    // TODO: Better to add the percent value.
     @IBAction func onSegmentControlChange(_ sender: Any) {
         let defaults = UserDefaults.standard
         defaults.set(String(self.segmentControl.selectedSegmentIndex), forKey: "default_tip_percentage_index")
         
     }
     
+    // When view loaded, if default percentage index already exists, show it selected
     func setDefaultTip() {
         let defaults = UserDefaults.standard
         let indexString_:String? = defaults.object(forKey: "default_tip_percentage_index") as! String?
