@@ -66,6 +66,13 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bzS-zt-Xjp">
+                                                <rect key="frame" x="274" y="8" width="93" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <connections>
+                                                    <action selector="onCustomOverlayClick:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FMv-Yo-8Qn"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -104,6 +111,7 @@
                     <connections>
                         <outlet property="addedAmountLabel" destination="lpf-e1-SUG" id="J2T-6q-LUg"/>
                         <outlet property="amountTextField" destination="V6o-Ak-Wzr" id="gqu-Bf-yeo"/>
+                        <outlet property="customOverlayButton" destination="bzS-zt-Xjp" id="2AH-Nf-8hl"/>
                         <outlet property="innerView" destination="7Ak-lE-v3e" id="Ojf-gI-a3j"/>
                         <outlet property="outerView" destination="rF4-th-2Sz" id="uus-9R-ikM"/>
                         <outlet property="segmentedControl" destination="uB7-lR-4CP" id="ViA-XS-IHX"/>

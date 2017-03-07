@@ -17,6 +17,7 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var addedAmountLabel: UILabel!
     @IBOutlet weak var totalAmountLabel: UILabel!
+    @IBOutlet weak var customOverlayButton: UIButton!
     
     var isViewSlided:Bool! = false
     var tipObject: Dictionary<String,Double>? = nil;
@@ -27,8 +28,9 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
         self.amountTextField.becomeFirstResponder()
         self.innerView.layer.opacity = 0.0;
         self.amountTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        self.customOverlayButton.isHidden = true
        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(TCMainViewController.handleTap))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(gestureRecognizer:)))
         self.view.addGestureRecognizer(tap)
         self.setDefaultTip()
        
@@ -114,7 +116,10 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
         }
     }
     
-    func handleTap() {
+    func handleTap(gestureRecognizer: UIGestureRecognizer) {
+        if(gestureRecognizer.view?.isKind(of: UISegmentedControl.self))! {
+            return
+        }
         self.amountTextField.resignFirstResponder();
     }
     
@@ -124,9 +129,11 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
     
     @IBAction func onSegmentControlChange(_ sender: Any) {
         if(self.segmentedControl.selectedSegmentIndex == 3) {
+            self.customOverlayButton.isHidden = false
             self.performSegue(withIdentifier: "Show Custom View", sender: nil)
         }
         else {
+            self.customOverlayButton.isHidden = true
             self.setTipDictionary()
             self.calculateTotalAmount()
         }
@@ -152,6 +159,10 @@ class TCMainViewController: UIViewController, TCCustomTipDelegate {
             
         }
         self.calculateTotalAmount()
+    }
+    
+    @IBAction func onCustomOverlayClick(_ sender: Any) {
+        self.performSegue(withIdentifier: "Show Custom View", sender: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
